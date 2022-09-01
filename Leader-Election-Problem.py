@@ -204,7 +204,7 @@ def main():
             print("This was not a number, please try again")
         except:
             print("The number was not valid, please try again")
-    print(f'\nNode number {starter_node} is starting the game\n')
+    print(f'\nNode {starter_node} is starting the game\n')
     time.sleep(2)
 
     run_loop = True
