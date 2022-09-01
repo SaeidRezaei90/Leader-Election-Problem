@@ -20,11 +20,6 @@ class Node_Status(enum.Enum):
     offline = 5
 
 
-class message_Type(enum.Enum):
-    election_message = 1
-    elected = 2
-
-
 #This function receive a json packet, parse it and return its values
 def json_Parser(json_file):
     json_file_dict = json.loads(json_file)
