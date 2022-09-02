@@ -15,7 +15,7 @@ class Node_Status(enum.Enum):
     offline = 5
 
 
-#This function receive a json packet, parse it and return its values
+##This function receive a json packet, parse it and return its values
 def json_Parser(json_file):
     json_file_dict = json.loads(json_file)
     unique_ID = json_file_dict["source"]
@@ -24,19 +24,20 @@ def json_Parser(json_file):
     return unique_ID, message_type, message_value
 
 
-#Creat class Node
+##Creat class Node
 class Node:
 
-    # Defining variables
-    upper_bound = 0xffffffff
+    ##Defining variables
+    #Since the number of nodes should be at most 16-bit unsigned integer, the upper bound uses for generate random number is 65535 or 0xffff
+    upper_bound = 0xffff 
     sender = socket.socket()
     receiver = socket.socket()
 
-    # Defining constructor
+    ##Defining constructor
     def __init__(self):
         self.process()
 
-    #Defining process func
+    ##Defining process func
     def process(self):
         self.queue = Queue()
         self.node_status = Node_Status.non_participating
@@ -52,7 +53,7 @@ class Node:
         election_msg = json.dumps(election_msg_dic)
         self.queue.put(election_msg)
 
-    #Preapre and send a Json packet if the queue is not empty
+    ##Preapre and send a Json packet if the queue is not empty
     def send(self):
         if (not self.queue.empty()):
             #Take msg from queue and parse it by calling json_Parser func
@@ -69,6 +70,7 @@ class Node:
             print("There is no packet in the queue")
             return False
 
+    ##Receive func
     def receive(self, received_message, node_num):
         #parse the received json packet by calling json_Parser func
         sender_unique_ID, message_type, message_value = json_Parser(
@@ -144,14 +146,14 @@ class Node:
             return False
 
 
-#Define the main func
+##Define the main func
 def main():
-    #Defining variables
+    ##Defining variables
     nodes = []
     run_loop = True
     delays = []
 
-    # read the number of nodes in the network
+    ## read the number of nodes in the network
     while True:
         num_of_nodes = input("Please enter the number of nodes: ")
         try:
@@ -165,14 +167,14 @@ def main():
             print("The number was not positive, please try again")
     print(f'\nNumber of nodes is: {n}\n')
 
-    # Define n instances of class Node
+    ## Define n instances of class Node
     for i in range(n):
         node = Node()
         nodes.append(node)
         print(f"node id for node {i} is: {nodes[i].node_id}")
     print("\n")
 
-    # read the delays between the nodes
+    ## read the delays between the nodes
     for i in range(n):
         while True:
             delay = input(
@@ -191,7 +193,7 @@ def main():
 
     print(f'\nThe delay list is: {delays}\n')
 
-    #To simplify the program, the user specify the starter node
+    ##To simplify the program, the user specify the starter node
     while True:
         starter_node = input(
             f"Please indicate which node should initiate the game. The entered value must be between {0} and {n-1}: "
@@ -207,7 +209,7 @@ def main():
             print("The number was not valid, please try again")
 
     print(f'\nNode {starter_node} is starting the game\n')
-    time.sleep(2)
+    time.sleep(1)
 
     #assign unknown port numbers t each node, in case we want to use socket
     #port_numbers = []
@@ -217,7 +219,7 @@ def main():
     #  print(f"Port number for node {i} is {port_numbers[i]}')
     #print("\n")
 
-    #Start sending packet and find the leader
+    ##Start sending packet and find the leader
     while (run_loop):
         for node_num in range(starter_node, n):
             pkt = nodes[node_num].send()
