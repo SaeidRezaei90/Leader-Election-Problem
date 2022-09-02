@@ -6,7 +6,7 @@ import enum
 import random
 import time
 
-## Create a enum class for node's status
+## Create an enum class for node's status
 class Node_Status(enum.Enum):
     non_participating = 1
     participating = 2
