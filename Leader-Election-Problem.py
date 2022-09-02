@@ -10,7 +10,6 @@ import time
 nodes = []
 
 
-# queue = queue.Queue()
 ## Create a enum class for node's status
 class Node_Status(enum.Enum):
     non_participating = 1
@@ -138,15 +137,18 @@ class Node:
             self.queue.put(received_message)
             return True
 
+        #if a leader node receive an elected type msg, it broa the game is over
         elif ((message_type == "elected")
               and (self.node_status == Node_Status.leader)):
             print(f"\nNode {node_num} received an \"elected\" type packet")
+            print(f"Node {node_num} is a \"leader\" node")
             print(
-                f"Node {node_num} with UID {self.node_id} is the leader \n\nGame is over"
+                f"So Node {node_num} with UID {self.node_id} is the leader \n\nGame is over"
             )
             return False
 
 
+#Define the main func
 def main():
 
     # read the number of nodes in the network
@@ -163,7 +165,7 @@ def main():
             print("The number was not positive, please try again")
     print(f'\nNumber of nodes is: {n}\n')
 
-    # Define n Node's instances of class Node
+    # Define n instances of class Node
     for i in range(n):
         node = Node()
         nodes.append(node)
@@ -193,7 +195,7 @@ def main():
     #To simplify the program, the user specify the starter node
     while True:
         starter_node = input(
-            f"Please specify which node should start the game? The enterd value shoud be between {0} and {n-1}: "
+            f"Please indicate which node should initiate the game. The entered value must be between {0} and {n-1}: "
         )
         try:
             starter_node = int(starter_node)
@@ -204,9 +206,19 @@ def main():
             print("This was not a number, please try again")
         except:
             print("The number was not valid, please try again")
+
     print(f'\nNode {starter_node} is starting the game\n')
     time.sleep(2)
 
+    #assign unknown port numbers t each node, in case we want to use socket
+    #port_numbers = []
+    #for i in range (n):
+    #  port_num = 9000 + i
+    #  port_numbers.append(port_num)
+    #  print(f"Port number for node {i} is {port_numbers[i]}')
+    #print("\n")
+
+    #Start sending packet and find the leader
     run_loop = True
     while (run_loop):
         for node_num in range(starter_node, n):
@@ -227,11 +239,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-#assign unknown port numbers t each node
-#port_numbers = []
-#for i in range (n):
-#  port_num = 9000 + i
-#  port_numbers.append(port_num)
-
-# print('Port numbers are {port_numbers}')
