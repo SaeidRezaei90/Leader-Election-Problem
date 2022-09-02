@@ -6,10 +6,6 @@ import enum
 import random
 import time
 
-#Defining variables
-nodes = []
-
-
 ## Create a enum class for node's status
 class Node_Status(enum.Enum):
     non_participating = 1
@@ -46,7 +42,7 @@ class Node:
         self.node_status = Node_Status.non_participating
         self.elected_UID = 0
         #create a random node_id for each node
-        self.node_id = random.randint(0, 0xffffffff)
+        self.node_id = random.randint(0, self.upper_bound)
         #Creat the initial json packet (election msg) and store it in the queue
         election_msg_dic = {
             "source": self.node_id,
@@ -143,13 +139,17 @@ class Node:
             print(f"\nNode {node_num} received an \"elected\" type packet")
             print(f"Node {node_num} is a \"leader\" node")
             print(
-                f"So Node {node_num} with UID {self.node_id} is the leader \n\nGame is over"
+                f"So node {node_num} with UID {self.node_id} is the leader \n\nGame is over"
             )
             return False
 
 
 #Define the main func
 def main():
+    #Defining variables
+    nodes = []
+    run_loop = True
+    delays = []
 
     # read the number of nodes in the network
     while True:
@@ -173,7 +173,6 @@ def main():
     print("\n")
 
     # read the delays between the nodes
-    delays = []
     for i in range(n):
         while True:
             delay = input(
@@ -199,7 +198,7 @@ def main():
         )
         try:
             starter_node = int(starter_node)
-            if ((starter_node < 0) or (starter_node > n)):
+            if ((starter_node < 0) or (starter_node > n-1)):
                 raise NotPositiveError
             break
         except ValueError:
@@ -219,7 +218,6 @@ def main():
     #print("\n")
 
     #Start sending packet and find the leader
-    run_loop = True
     while (run_loop):
         for node_num in range(starter_node, n):
             pkt = nodes[node_num].send()
