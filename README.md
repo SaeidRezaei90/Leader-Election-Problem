@@ -1,9 +1,10 @@
 # Leader-Election-Problem
- <div style="float:center">
+ <p align="center"> 
+    <div style="float:center">
  <img  src="LEP.PNG" width=500>
-  </div>
+  </p>
   
-  Consider a cycle of computational nodes distributed in an IP-based network like the figure above. As the input to your program, in the first line, you will be given a positive integer storable in at most 16-bit unsigned integer in the standard format. This would indicate the number of nodes in the network, n. After that, you need to read n consecutive lines of floating-point numbers given in the standard format. These numbers indicate the delay between the nodes on the cycle from the first one to the last.
+Consider a cycle of computational nodes distributed in an IP-based network like the figure above. As the input to your program, in the first line, you will be given a positive integer storable in at most 16-bit unsigned integer in the standard format. This would indicate the number of nodes in the network, n. After that, you need to read n consecutive lines of floating-point numbers given in the standard format. These numbers indicate the delay between the nodes on the cycle from the first one to the last.
 Generate a random positive integer unique ID (UID) for each node that we will be calling the <node-id>. Please note that the nodes do not know the value of n. The only information available to them is the upper bound that we gave you.
 Write a node class having the attributes needed to describe a node in our system. Please note that we would be sending the messages on real sockets on the localhost machine, so you probably need to assign a port number to each of the nodes.
 Add functions to your node class to support the unique ID generation and also sending, receiving, and processing. So, each of the nodes may have three concurrent actions:
