@@ -19,9 +19,13 @@ c. A processing unit that at first the node is started, initiates the parameters
 4. The messages are sent over TCP-IP with a JSON format like below:
  
 {
+ 
 “source”: <sender’s node’s unique ID>, 
+ 
 “type”: <type of the message>,
+ 
 “value”: <the suggested value>
+ 
 }
  
   5. Implement the LCR algorithm for leader election:
