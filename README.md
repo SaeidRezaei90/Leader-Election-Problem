@@ -43,7 +43,11 @@ d. When a node receives an election message it compares the unique ID in the mes
 * If the UID in the incoming election message is the same as the UID of the process, that process starts acting as the leader.
 6. When a process starts acting as the leader, it begins the second stage of the algorithm.
 . The leader node marks its state as the leader and sends an “elected” type message to its neighbor announcing its election and UID.
+ 
 a. When a node receives an “elected” type message, it marks itself as a decided, records the elected UID, and forwards the elected message unchanged.
+ 
 b. When the elected message reaches the newly elected leader, the leader discards that message, and the election is over.
+ 
 7. Log the communications inside a file. Also, print out the decisions made by each node. How would we know the algorithm is finished?
+ 
 8. Give an intuition that why the algorithm works (terminates and gives the correct expected answer). What happens if we use UDP instead of TCP? What happens if the UIDs generated are not unique? Given your algorithm in part 1, can you calculate the chance of any two UIDs to be equal?
